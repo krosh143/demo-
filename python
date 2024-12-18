@@ -1,3 +1,4 @@
+import datetime
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo, showerror
@@ -5,34 +6,30 @@ from tkinter.messagebox import showinfo, showerror
 auth_form = tk.Tk()
 auth_form.geometry('400x600')
 
-from_x, from_y =30, 30
-entry_width = 30
+form_x, form_y = 30, 30
+entry_width = 20
 
 auth = [{'login': 'admin', 'password': 'admin'}]
-
-
 
 def autentication():
     login = log.get()
     password = pas.get()
     for user in auth:
-         if login == user.get('login') and password == user.get('password'):
-             auth_form.withdraw()
-             admin_form.deiconify()
-    return False
+        if login == user['login'] and password == user['password']:
+            auth_form.withdraw()
+            admin_form.deiconify()
+            return
+    showerror('эээээээ','НЕПРАВИЛЬНО ДОН')
 
+tk.Label(text='Логин').place(x=form_x, y=form_y)
+log = tk.Entry(width=entry_width)
+log.place(x=form_x, y=form_y + 30)
 
-tk.Label(auth_form, text='login', width=entry_width).place(x=from_x, y=from_y)
-log = tk.Entry(auth_form, width=entry_width)
-log.place(x=from_x, y=from_y + 30)
+tk.Label(text='Пароль').place(x=form_x, y=form_y + 60)
+pas = tk.Entry( width=entry_width)
+pas.place(x=form_x, y=form_y + 90)
 
-tk.Label(auth_form, text='password', width=entry_width).place(x=from_x, y=from_y + 60)
-pas = tk.Entry(auth_form, width=entry_width)
-pas.place(x=from_x, y=from_y + 90)
-
-tk.Button(auth_form, text='ВОЙТИ', command=autentication).place(x=from_x, y=from_y + 130)
-
-
+tk.Button(text='Войти', width=entry_width, command=autentication).place(x=form_x, y=form_y + 120)
 
 
 admin_form = tk.Tk()
@@ -40,37 +37,30 @@ admin_form.geometry('1900x900+0+0')
 
 tickets = []
 
-def add_tikets():
+def add_tickets():
     ticket = []
-    try:
-        ticket.append(article.get())
-        ticket.append(date.get())
-        ticket.append(typee.get())
-        ticket.append(modele.get())
-        ticket.append(problem.get())
-        ticket.append(fio.get())
-        ticket.append(number.get())
-        ticket.append(status.get())
-        print(ticket)
-    except Exception:
-        showerror('','')
-    else:
-        tickets.append(ticket)
-        showinfo('','')
+    ticket.append(article.get())
+    ticket.append(datetime.datetime.now())
+    ticket.append(typee.get())
+    ticket.append(modele.get())
+    ticket.append(problem.get())
+    ticket.append(fio.get())
+    ticket.append(number.get())
+    ticket.append(status.get())
 
-        print_tickets()
+    tickets.append(ticket)
+    showinfo('', '')
+    print_tickets()
 
 def print_tickets():
     tree.delete(*tree.get_children())
     for ticket in tickets:
         tree.insert('', 'end', values=ticket)
 
-
-def select_ticket():
+def select():
     ticket_id = article.get()
     for ticket in tickets:
         if ticket[0] == ticket_id:
-            ticket[1] = date.get()
             ticket[2] = typee.get()
             ticket[3] = modele.get()
             ticket[4] = problem.get()
@@ -78,49 +68,40 @@ def select_ticket():
             ticket[6] = number.get()
             ticket[7] = status.get()
             break
-    showinfo('', '')
+    showinfo('','')
     print_tickets()
 
-
-
-
-
-tk.Label(admin_form, text='article', width=entry_width).place(x=from_x, y=from_y + 30)
+tk.Label(admin_form, text='Номер заявки').place(x=form_x, y=form_y + 60)
 article = tk.Entry(admin_form, width=entry_width)
-article.place(x=from_x, y=from_y + 60)
+article.place(x=form_x, y=form_y + 90)
 
-tk.Label(admin_form, text='date', width=entry_width).place(x=from_x, y=from_y + 90)
-date = tk.Entry(admin_form, width=entry_width)
-date.place(x=from_x, y=from_y + 120)
-
-tk.Label(admin_form, text='typee', width=entry_width).place(x=from_x, y=from_y + 150)
+tk.Label(admin_form, text='Вид оргтехники').place(x=form_x, y=form_y + 120)
 typee = tk.Entry(admin_form, width=entry_width)
-typee.place(x=from_x, y=from_y + 180)
+typee.place(x=form_x, y=form_y + 150)
 
-tk.Label(admin_form, text='modele', width=entry_width).place(x=from_x, y=from_y + 210)
+tk.Label(admin_form, text='Модель').place(x=form_x, y=form_y + 180)
 modele = tk.Entry(admin_form, width=entry_width)
-modele.place(x=from_x, y=from_y + 240)
+modele.place(x=form_x, y=form_y + 210)
 
-tk.Label(admin_form, text='problem', width=entry_width).place(x=from_x, y=from_y + 270)
+tk.Label(admin_form, text='Описание проблемы').place(x=form_x, y=form_y + 240)
 problem = tk.Entry(admin_form, width=entry_width)
-problem.place(x=from_x, y=from_y + 300)
+problem.place(x=form_x, y=form_y + 270)
 
-tk.Label(admin_form, text='fio', width=entry_width).place(x=from_x, y=from_y + 330)
+tk.Label(admin_form, text='ФИО клиента').place(x=form_x, y=form_y + 300)
 fio = tk.Entry(admin_form, width=entry_width)
-fio.place(x=from_x, y=from_y + 360)
+fio.place(x=form_x, y=form_y + 330)
 
-tk.Label(admin_form, text='number', width=entry_width).place(x=from_x, y=from_y + 390)
+tk.Label(admin_form, text='Номер телефона').place(x=form_x, y=form_y + 360)
 number = tk.Entry(admin_form, width=entry_width)
-number.place(x=from_x, y=from_y + 420) 
+number.place(x=form_x, y=form_y + 390)
 
-tk.Label(admin_form, text='status', width=entry_width).place(x=from_x, y=from_y + 450)
-status = ttk.Combobox(admin_form, width=entry_width, values=['Новая заявка', 'Впроцессе ремонта', 'завершена'])
+tk.Label(admin_form, text='Статус заявки').place(x=form_x, y=form_y + 420)
+status = ttk.Combobox(admin_form, width=entry_width, values=['Новая заявка', 'Впроцессе ремонта', 'Завершена'])
 status.current(0)
-status.place(x=from_x, y=from_y + 480)
+status.place(x=form_x, y=form_y + 450)
 
-tk.Button(admin_form, text='Записать', command=add_tikets).place(x=from_x, y=from_y + 520)
-tk.Button(admin_form, text='Изменить', command=select_ticket).place(x=from_x, y=from_y + 550)
-
+tk.Button(admin_form, text='Записать', width=entry_width, command=add_tickets).place(x=form_x, y=form_y + 480)
+tk.Button(admin_form, text='Изменить', width=entry_width, command=select).place(x=form_x, y=form_y + 510)
 
 columns = ['Номер заявки',
            'Дата добавления',
@@ -135,10 +116,7 @@ columns = ['Номер заявки',
 tree = ttk.Treeview(admin_form, columns=columns, show='headings', height=10)
 for i in columns:
     tree.heading(i, text=i)
-
-tree.place(x=from_x + 250, y=from_y + 50)
-
+tree.place(x=250, y=50)
 
 admin_form.withdraw()
 auth_form.mainloop()
-
